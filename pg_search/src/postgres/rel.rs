@@ -448,6 +448,7 @@ impl PgSearchRelation {
             })
             .unwrap_or_else(|| Arc::new(NoopSamplerFactory));
 
+        let bit_width = self.options().vector_bit_width();
         let field_configs: Vec<ClusterFieldConfig> = vector_fields
             .iter()
             .map(|&(field, dims, metric)| {
@@ -460,7 +461,7 @@ impl PgSearchRelation {
                     metric.runtime_metric(),
                     rotator,
                     42,
-                    TurboQuantizer::new(dims, None, None),
+                    TurboQuantizer::new(dims, Some(bit_width), None),
                 )
             })
             .collect();

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#![allow(dead_code)]
 //! Transport layer for MPP shuffle.
 //!
 //! Layout:
@@ -65,7 +64,8 @@ const FRAME_MAGIC: [u8; 4] = *b"MPPF";
 ///
 /// Fields:
 /// - `query_id` (8 B) — `MppExecutionState::query_id()` at plan time.
-/// - `stage_id` (4 B) — boundary's [`MppStage::stage_id`]; disambiguates
+/// - `stage_id` (4 B) — boundary's stage number (`Stage::num` on the
+///   walker's stamped [`datafusion_distributed::Stage`]); disambiguates
 ///   multiple cuts in the same plan.
 /// - `task_number` (4 B) — the *sender's* participant index; tells the
 ///   receiver which peer produced this batch.
